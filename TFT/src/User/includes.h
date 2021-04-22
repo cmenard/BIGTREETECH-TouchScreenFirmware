@@ -57,7 +57,7 @@
 #include "Gcode/mygcodefs.h"
 #include "flashStore.h"
 #include "parseACK.h"
-#include "Selectmode.h"
+#include "SelectMode.h"
 #include "MarlinMode.h"
 #include "Temperature.h"
 #include "Settings.h"
@@ -91,8 +91,8 @@
 #include "Printing.h"
 #include "More.h"
 #include "Speed.h"
-#include "ledcolor.h"
-#include "Parametersetting.h"
+#include "LCD_LEDColor.h"
+#include "ParameterSettings.h"
 #include "NotificationMenu.h"
 
 #include "Babystep.h"
@@ -105,7 +105,7 @@
 #include "ScreenSettings.h"
 #include "MachineSettings.h"
 #include "FeatureSettings.h"
-#include "SendGcode.h"
+#include "Terminal.h"
 #include "Leveling.h"
 #include "BedLeveling.h"
 #include "BedLevelingLayer2.h"
@@ -129,6 +129,7 @@
 #include "MeshEditor.h"
 #include "CaseLight.h"
 #include "MeshValid.h"
+#include "LEDColor.h"
 
 #define MAX_MENU_DEPTH 10       // max sub menu depth
 typedef void (*FP_MENU)(void);
