@@ -161,6 +161,14 @@ persistent_info:0
 #   Options: [enable: 1, disable: 0]
 files_list_mode:1
 
+#### Files Sorting
+# Sort files and folders based on the selected option.
+#
+# NOTE: Only applicable for files in TFT SD Card and TFT USB Stick.
+#
+#   Options: [Date Newest First: 0, Date Oldest First: 1, Name Ascending: 2, Name Descending: 3]
+files_sort_by:0
+
 #### Notification Style For ACK Messages
 # Set the notification style to use for displaying the ACK messages which start with 'echo:'.
 #
