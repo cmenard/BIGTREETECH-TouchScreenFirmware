@@ -46,9 +46,9 @@ void zOffsetDraw(bool status, float val)
   GUI_DispString(exhibitRect.x0, exhibitRect.y1 - BYTE_HEIGHT, (uint8_t *) tempstr3);
 
   GUI_SetColor(infoSettings.font_color);
-  setLargeFont(true);
+  setFontSize(FONT_SIZE_LARGE);
   GUI_DispStringInPrect(&exhibitRect, (uint8_t *) tempstr2);
-  setLargeFont(false);
+  setFontSize(FONT_SIZE_NORMAL);
 }
 
 void zOffsetSetMenu(bool probeOffset)
@@ -131,6 +131,7 @@ void menuZOffset(void)
 
   now = z_offset = offsetGetValue();
 
+  INVERT_Z_AXIS_ICONS(&zOffsetItems);
   zOffsetItems.items[KEY_ICON_4].label = itemToggle[offsetGetStatus()];
 
   itemZOffsetSubmenu[0] = itemMoveLen[curUnit_index];

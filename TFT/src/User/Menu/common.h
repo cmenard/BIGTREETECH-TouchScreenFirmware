@@ -52,11 +52,19 @@ extern const uint16_t iconToggle[ITEM_TOGGLE_NUM];
 // Check if next screen update is due
 bool nextScreenUpdate(uint32_t duration);
 
+#ifdef FRIENDLY_Z_OFFSET_LANGUAGE
+  void invertZAxisIcons(MENUITEMS * menuItems);
+
+  #define  INVERT_Z_AXIS_ICONS(menuItemsPtr) invertZAxisIcons(menuItemsPtr)
+#else
+  #define  INVERT_Z_AXIS_ICONS(menuItemsPtr)
+#endif
+
 void drawBorder(const GUI_RECT *rect, uint16_t color, uint16_t edgeDistance);
 
 void drawBackground(const GUI_RECT *rect, uint16_t bgColor, uint16_t edgeDistance);
 
-void drawStandardValue(const GUI_RECT *rect, VALUE_TYPE valType, const void *val, bool largeFont,
+void drawStandardValue(const GUI_RECT *rect, VALUE_TYPE valType, const void *val, uint16_t font,
                        uint16_t color, uint16_t bgColor, uint16_t edgeDistance, bool clearBgColor);
 
 bool warmupTemperature(uint8_t toolIndex, void (* callback)(void));

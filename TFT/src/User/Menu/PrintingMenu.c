@@ -253,7 +253,7 @@ static inline void toggleInfo(void)
     speedQuery();
 
     if (infoFile.source >= BOARD_SD)
-      coordinateQuery();
+      coordinateQuery(TOGGLE_TIME / 1000);
 
     if (!hasFilamentData && isPrinting())
       updatePrintUsedFilament();
@@ -280,7 +280,7 @@ void drawPrintInfo(void)
 {
   GUI_SetTextMode(GUI_TEXTMODE_TRANS);
 
-  ICON_CustomReadDisplay(rect_of_keySS[17].x0, rect_of_keySS[17].y0, INFOBOX_ADDR);
+  IMAGE_ReadDisplay(rect_of_keySS[17].x0, rect_of_keySS[17].y0, INFOBOX_ADDR);
   GUI_SetColor(INFOMSG_BKCOLOR);
   GUI_DispString(rect_of_keySS[17].x0 + STATUS_MSG_ICON_XOFFSET, rect_of_keySS[17].y0 + STATUS_MSG_ICON_YOFFSET,
                  IconCharSelect(CHARICON_INFO));
@@ -361,7 +361,9 @@ void menuPrinting(void)
   uint32_t time = 0;
   HEATER nowHeat;
   float curLayer = 0;
-  float oldLayer = 0;
+  float usedLayer = 0;
+  float prevLayer = 0;
+  bool layerDrawEnabled = false;
   bool lastPause = isPaused();
   bool lastPrinting = isPrinting();
 
@@ -450,11 +452,23 @@ void menuPrinting(void)
 
     // Z_AXIS coordinate
     curLayer = ((infoFile.source >= BOARD_SD) ? coordinateGetAxisActual(Z_AXIS) : coordinateGetAxisTarget(Z_AXIS));
-    if (ABS(curLayer - oldLayer) >= LAYER_DELTA)
+    if (prevLayer != curLayer)
     {
-      oldLayer = curLayer;
-      RAPID_SERIAL_LOOP();  // perform backend printing loop before drawing to avoid printer idling
-      reDrawLayer(Z_ICON_POS);
+      if (ABS(curLayer - usedLayer) >= LAYER_DELTA)
+      {
+        layerDrawEnabled = true;
+      }
+      if (layerDrawEnabled == true)
+      {
+        usedLayer = curLayer;
+        RAPID_SERIAL_LOOP();  // perform backend printing loop before drawing to avoid printer idling
+        reDrawLayer(Z_ICON_POS);
+      }
+      if (ABS(curLayer - prevLayer) < LAYER_DELTA)
+      {
+        layerDrawEnabled = false;
+      }
+      prevLayer = curLayer;
     }
 
     // check change in speed or flow
